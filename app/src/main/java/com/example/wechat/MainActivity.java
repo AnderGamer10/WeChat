@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     TextView mensajes;
     Button btnEnviar;
     EditText mensajeEscrito;
+    ScrollView scrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         btnEnviar = findViewById(R.id.btnEnviar);
         mensajes = findViewById(R.id.idMensajes);
         mensajeEscrito = findViewById(R.id.editTxtTexto);
-
-        Connection connection = new Connection(this);
+        scrollView = findViewById(R.id.scrollMensajes);
+        Connection connection = new Connection(this, scrollView);
         connection.connect();
         btnEnviar.setOnClickListener(view -> {
             Log.i("daasd", mensajeEscrito.getText().toString());

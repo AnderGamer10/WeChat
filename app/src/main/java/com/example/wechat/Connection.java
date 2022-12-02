@@ -3,6 +3,9 @@ package com.example.wechat;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.util.Log;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -15,8 +18,10 @@ public class Connection {
     HandlerThread handlerThread, handlerThread2, handlerThread3;
     Handler handler, handler2, handler3;
     Looper looper, looper2, looper3;
-    public Connection(MainActivity mainActivity){
+    ScrollView scrollView;
+    public Connection(MainActivity mainActivity, ScrollView scrollView){
         this.mainActivity = mainActivity;
+        this.scrollView = scrollView;
     }
 
     public void connect() {
@@ -30,7 +35,8 @@ public class Connection {
                 @Override
                 public void run() {
                     try {
-                        socket = new Socket("localhost", 6666);
+                        socket = new Socket("10.0.2.2", 6666);
+//                        Log.i("Haciendo aqui *************************", String.valueOf(socket));
 //          BufferedReader
                         handlerThread2 = new HandlerThread("BufferedReader");
                         handlerThread2.start();
@@ -76,11 +82,8 @@ public class Connection {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
         });
     }
-
-
 }
