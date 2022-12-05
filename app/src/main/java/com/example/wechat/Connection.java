@@ -4,11 +4,15 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
@@ -61,6 +65,30 @@ public class Connection {
         handler2.post(new Runnable() {
             @Override
             public void run() {
+
+
+                mainActivity.runOnUiThread(() -> {
+
+                    while (true) {
+                        InputStream inputStream = null;
+                        try {
+                            inputStream = socket.getInputStream();
+                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                Log.i("message", line);
+                                TextView textView = new TextView(mainActivity);
+                                LinearLayout linearLayout = mainActivity.findViewById(R.id.linearMensajes);
+                                linearLayout.addView(textView);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+
 
             }
         });

@@ -16,7 +16,6 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView mensajes;
     Button btnEnviar;
     EditText mensajeEscrito;
     ScrollView scrollView;
@@ -25,14 +24,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnEnviar = findViewById(R.id.btnEnviar);
-        mensajes = findViewById(R.id.idMensajes);
         mensajeEscrito = findViewById(R.id.editTxtTexto);
         scrollView = findViewById(R.id.scrollMensajes);
         Connection connection = new Connection(this, scrollView);
         connection.connect();
+
         btnEnviar.setOnClickListener(view -> {
-            Log.i("daasd", mensajeEscrito.getText().toString());
+            //Log.i("daasd", mensajeEscrito.getText().toString());
             connection.sendMessages(mensajeEscrito.getText().toString());
         });
+        //connection.getMessages();
     }
 }
