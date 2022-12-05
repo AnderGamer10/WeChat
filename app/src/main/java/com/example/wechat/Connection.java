@@ -36,7 +36,6 @@ public class Connection {
                 public void run() {
                     try {
                         socket = new Socket("10.0.2.2", 6666);
-//                        Log.i("Haciendo aqui *************************", String.valueOf(socket));
 //          BufferedReader
                         handlerThread2 = new HandlerThread("BufferedReader");
                         handlerThread2.start();
@@ -59,7 +58,6 @@ public class Connection {
         }
     }
     public void getMessages(){
-
         handler2.post(new Runnable() {
             @Override
             public void run() {
