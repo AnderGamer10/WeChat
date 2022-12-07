@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         mensajeViewModel = new ViewModelProvider(this).get(MensajeViewModel.class);
         mensajeViewModel.getAllMensaje().observe(this, words -> {
-            adapter.submitList(words);
+
         });
 
         btnEnviar.setOnClickListener(view -> {
