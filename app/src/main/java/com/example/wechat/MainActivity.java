@@ -3,18 +3,16 @@ package com.example.wechat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import com.example.wechat.Network.Connection;
 
 public class MainActivity extends AppCompatActivity {
+//https://developer.android.com/codelabs/android-room-with-a-view?hl=es-419#9
 
     Button btnEnviar;
     EditText mensajeEscrito;
@@ -26,13 +24,15 @@ public class MainActivity extends AppCompatActivity {
         btnEnviar = findViewById(R.id.btnEnviar);
         mensajeEscrito = findViewById(R.id.editTxtTexto);
         scrollView = findViewById(R.id.scrollMensajes);
-        Connection connection = new Connection(this, scrollView);
+        Connection connection = new Connection("10.0.2.2", 6666,this);
         connection.connect();
+        TextView textView = new TextView(this);
+        LinearLayout linearLayout = findViewById(R.id.linearMensajes);
+        linearLayout.addView(textView);
 
         btnEnviar.setOnClickListener(view -> {
-            //Log.i("daasd", mensajeEscrito.getText().toString());
+//            Log.i("daasd", mensajeEscrito.getText().toString());
             connection.sendMessages(mensajeEscrito.getText().toString());
         });
-        //connection.getMessages();
     }
 }
