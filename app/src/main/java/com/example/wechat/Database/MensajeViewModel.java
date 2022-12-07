@@ -22,7 +22,10 @@ public class MensajeViewModel extends AndroidViewModel {
         allMensaje = mRepository.getAllMensaje();
     }
 
-    LiveData<List<Mensaje>> getAllMensaje() { return allMensaje; }
+    public LiveData<List<Mensaje>> getAllMensaje() {
+        return allMensaje;
+    }
+
 
     public void insert(Mensaje mensaje) { mRepository.insert(mensaje); }
 }

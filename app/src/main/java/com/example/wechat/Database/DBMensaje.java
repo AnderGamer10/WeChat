@@ -23,7 +23,7 @@ public abstract class DBMensaje extends RoomDatabase {
             synchronized (DBMensaje.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    DBMensaje.class, "word_database")
+                                    DBMensaje.class, "mensaje_database")
                             .build();
                 }
             }

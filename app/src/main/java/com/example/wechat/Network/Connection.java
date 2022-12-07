@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.wechat.Database.MensajeRepository;
 import com.example.wechat.MainActivity;
 import com.example.wechat.R;
 
@@ -84,6 +85,10 @@ public class Connection {
                     try {
                         while ((line = br.readLine()) != null) {
                             String finalLine = line;
+
+//                            MensajeRepository mensajeRepository **********************************
+
+
                             hMain.post(new Runnable() {
                                 @Override
                                 public void run() {
