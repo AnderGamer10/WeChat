@@ -46,7 +46,7 @@
 
     <ScrollView
         android:id="@+id/scrollMensajes"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="540dp"
         app:layout_constraintBottom_toTopOf="@+id/editTxtTexto"
         app:layout_constraintEnd_toEndOf="parent"

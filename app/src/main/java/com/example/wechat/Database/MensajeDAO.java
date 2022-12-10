@@ -11,15 +11,19 @@ import java.util.List;
 
 @Dao
 public interface MensajeDAO {
-    @Query("SELECT * FROM mensaje ORDER BY user ASC")
-    LiveData<List<Mensaje>> findAllUser();
+    @Query("SELECT * FROM mensaje")
+    LiveData<List<Mensaje>> getAllMensajes();
+
+    @Query("SELECT * FROM mensaje ORDER BY id ASC LIMIT 1")
+    LiveData<List<Mensaje>> ultimoMensaje();
 
     @Insert
-    void insertAll(Mensaje... mensajes);
+    void insertarMensaje(Mensaje... mensajes);
 
     @Delete
     void delete(Mensaje mensaje);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Mensaje mensaje);
+    @Query("DELETE FROM mensaje")
+    void nukeTable();
 }
+

@@ -14,4 +14,13 @@ public class Mensaje {
 
     @ColumnInfo(name = "message")
     public String message;
+
+    @Override
+    public String toString() {
+        return "Mensaje{" +
+                "id=" + id +
+                ", user=" + user +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

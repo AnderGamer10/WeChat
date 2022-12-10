@@ -1,5 +1,6 @@
 package com.example.wechat.Network;
 
+import android.app.Application;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -8,8 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.wechat.Database.DBMensaje;
 import com.example.wechat.Database.Mensaje;
+import com.example.wechat.Database.MensajeDAO;
 import com.example.wechat.Database.MensajeRepository;
+import com.example.wechat.Database.MensajeViewModel;
 import com.example.wechat.MainActivity;
 import com.example.wechat.R;
 
@@ -58,71 +64,56 @@ public class Connection {
 
     public void connect() {
         try {
-            hConnect.post(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        socket = new Socket(IP,PORT);
+            hConnect.post(() -> {
+                try {
+                    socket = new Socket(IP,PORT);
 
-                        br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-                        getMessages();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    getMessages();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void getMessages(){
-        hReceive.post(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    String line;
-                    try {
-                        while ((line = br.readLine()) != null) {
-                            String finalLine = line;
-
-//                            MensajeRepository mensajeRepository **********************************
+        hReceive.post(() -> {
+            while (true){
+                String line;
+                try {
+                    while ((line = br.readLine()) != null) {
+                        String finalLine = line;
+                        hMain.post(() -> {
                             Mensaje mensaje = new Mensaje();
-                            mensaje.user = "";
-                            mensaje.message= finalLine;
+                            mensaje.user = "Usuario " + finalLine.substring(8,10) + ":";
+                            mensaje.message= finalLine.substring(18);
 
-                            hMain.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.e("message", finalLine);
-                                    TextView textView = new TextView(mainActivity);
-                                    textView.setText(finalLine);
-                                    LinearLayout linearLayout = mainActivity.findViewById(R.id.linearMensajes);
-                                    linearLayout.addView(textView);
-                                }
-                            });
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            MensajeViewModel mensajeViewModel;
+                            mensajeViewModel = new ViewModelProvider(mainActivity).get(MensajeViewModel.class);
+                            mensajeViewModel.insert(mensaje);
+                        });
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
 
-    public void sendMessages(String mensaje){
-        hSend.post(new Runnable() {
-            @Override
-            public void run() {
-                if(mensaje.trim().length() > 0){
-                    try {
-                        bw.write(mensaje);
-                        bw.newLine();
-                        bw.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    public void sendMessages(String mensajeStr){
+        hSend.post(() -> {
+            if(mensajeStr.trim().length() > 0){
+                try {
+                    bw.write(mensajeStr);
+                    bw.newLine();
+                    bw.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
